@@ -109,7 +109,7 @@ def run():
 
         #Display
         for element in simpleSuperiorityList:
-            print(element[0] + " is better than: " + str(element[1]))
-        print("\nVault Spaces Saveable: " + str(len(worstArmor)))
+            print(element[0] + " is better than: " + str(element[1]) + "\n")
+        print("Vault Spaces Saveable: " + str(len(worstArmor)))
 if __name__ == "__main__":
     run()
