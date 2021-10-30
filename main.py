@@ -112,4 +112,5 @@ def run():
             print(element[0] + " is better than: " + str(element[1]) + "\n")
         print("Vault Spaces Saveable: " + str(len(worstArmor)))
 if __name__ == "__main__":
+    print("Running searcher...")
     run()
