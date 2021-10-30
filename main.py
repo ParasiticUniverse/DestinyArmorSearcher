@@ -1,4 +1,7 @@
 import csv
+import logging as logger
+import sys
+
 #Config options
 skipMasterTier = True
 skipMob = False
@@ -80,37 +83,48 @@ def run():
     skipStr = input("Ignore Str? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
 
     #Open CSV from DIM
-    with open('destinyArmor.csv', newline='') as f:
-        reader = csv.reader(f)
-        rawArmorList = list(reader)
-        armorList = []
+    rawArmorList = []
+    armorList = []
+    
+    try:
+        with open('resources/destinyArmor.csv', newline='') as f:
+            reader = csv.reader(f)
+            rawArmorList = list(reader)
+    except Exception as e:
+        logger.error("Caught exception when opening csv file\n" + str(e))
+    
+    if len(rawArmorList) == 0:
+        logger.info("raw armor list was found empty, closing")
+        sys.exit(1)
+         
+        
+    #List of all pieces
+    for currentArmor in rawArmorList[2:]:
+        armorList.append(armorPiece(currentArmor))
 
-        #List of all pieces
-        for currentArmor in rawArmorList[2:]:
-            armorList.append(armorPiece(currentArmor))
+    #Create list of comparisons
+    superiorityList = []
+    for currentArmor in armorList:
+        for testArmor in armorList:
+            if currentArmor.isBetter(testArmor):
+                superiorityList.append((currentArmor.shortStr(), testArmor.shortStr()))
 
-        #Create list of comparisons
-        superiorityList = []
-        for currentArmor in armorList:
-            for testArmor in armorList:
-                if currentArmor.isBetter(testArmor):
-                    superiorityList.append((currentArmor.shortStr(), testArmor.shortStr()))
+    #Lists of armor to keep and shard
+    bestArmor = set([armor[0] for armor in superiorityList])
+    worstArmor = set([armor[1] for armor in superiorityList])
 
-        #Lists of armor to keep and shard
-        bestArmor = list(set([armor[0] for armor in superiorityList]))
-        worstArmor = list(set([armor[1] for armor in superiorityList]))
+    simpleSuperiorityList = []
 
-        simpleSuperiorityList = []
+    #Formatting the list so that each piece to keep is listed next to which pieces it supersedes
+    for currentArmor in bestArmor:
+        badArmorList = [armor[1] for armor in superiorityList if armor[0] == currentArmor]
+        simpleSuperiorityList.append([currentArmor, badArmorList])
 
-        #Formatting the list so that each piece to keep is listed next to which pieces it supersedes
-        for currentArmor in bestArmor:
-            badArmorList = [armor[1] for armor in superiorityList if armor[0] == currentArmor]
-            simpleSuperiorityList.append([currentArmor, badArmorList])
+    #Display
+    for element in simpleSuperiorityList:
+        print(element[0] + " is better than: " + str(element[1]) + "\n")
+    
+    logger.info("Vault Spaces Saveable: " + str(len(worstArmor)))
 
-        #Display
-        for element in simpleSuperiorityList:
-            print(element[0] + " is better than: " + str(element[1]) + "\n")
-        print("Vault Spaces Saveable: " + str(len(worstArmor)))
 if __name__ == "__main__":
-    print("Running searcher...")
     run()
