@@ -126,5 +126,6 @@ def run():
     
     logger.info("Vault Spaces Saveable: " + str(len(worstArmor)))
 
+
 if __name__ == "__main__":
     run()
