@@ -4,12 +4,12 @@ import sys
 
 #Config options
 skipMasterTier = True
-skipMob = False
+skipMob = True
 skipRec = False
 skipRes = False
 skipDis = False
 skipInt = False
-skipStr = False
+skipStr = True
 
 class armorPiece:
     def __init__(self, info):
@@ -70,8 +70,9 @@ class armorPiece:
 
 def run():
     #Prompting and config
-    print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
+    #print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
     global skipMasterTier, skipMob, skipRec, skipRes, skipDis, skipInt, skipStr
+
     skipMasterTier = input("Ignore Masterwork Tier? Y/N (Default: Yes)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipMob = input("Ignore Mobility? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipRec = input("Ignore Recovery? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
@@ -119,8 +120,10 @@ def run():
         simpleSuperiorityList.append([currentArmor, badArmorList])
 
     #Display
-    for element in simpleSuperiorityList:
-        print(element[0] + " is better than: " + str(element[1]) + "\n")
+    #for element in simpleSuperiorityList:
+        #print(element[0] + " is better than: " + str(element[1]) + "\n")
+    for i in worstArmor:
+        print(i)
     
     logger.info("Vault Spaces Saveable: " + str(len(worstArmor)))
 
