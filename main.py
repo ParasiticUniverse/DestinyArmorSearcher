@@ -4,12 +4,12 @@ import sys
 
 #Config options
 skipMasterTier = True
-skipMob = False
+skipMob = True
 skipRec = False
 skipRes = False
 skipDis = False
 skipInt = False
-skipStr = False
+skipStr = True
 
 class armorPiece:
     def __init__(self, info):
@@ -25,20 +25,18 @@ class armorPiece:
 
             #Armor 1.0 exotics have no masterwork so this is required.
             try:
-                self.master = info[10].split()[0]
-                self.masterTier = int(info[11])
+                self.masterTier = int(info[10])
 
             except Exception as e:
-                self.master = 'None'
                 self.masterTier = 0
 
-            self.mob = int(info[27])
-            self.res = int(info[28])
-            self.rec = int(info[29])
-            self.dis = int(info[30])
-            self.int = int(info[31])
-            self.str = int(info[32])
-            self.total = int(info[33])
+            self.mob = int(info[24])
+            self.res = int(info[25])
+            self.rec = int(info[26])
+            self.dis = int(info[27])
+            self.int = int(info[28])
+            self.str = int(info[29])
+            self.total = int(info[30])
 
         except Exception as e:
             print(e)
@@ -68,19 +66,20 @@ class armorPiece:
     #Simpler way to print armor piece
     def shortStr(self):
         return str(self.name) + "," + str(self.equippable) + "," + str(self.type) + "," + str(self.power) + "," + str(
-            self.total) + "," + self.master + "," + str(self.masterTier)
+            self.total) + "," + str(self.masterTier)
 
 def run():
     #Prompting and config
-    print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
+    #print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
     global skipMasterTier, skipMob, skipRec, skipRes, skipDis, skipInt, skipStr
+
     skipMasterTier = input("Ignore Masterwork Tier? Y/N (Default: Yes)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipMob = input("Ignore Mobility? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipRec = input("Ignore Recovery? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipRes = input("Ignore Resilience? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipDis = input("Ignore Discipline? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipInt = input("Ignore Intellect? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
-    skipStr = input("Ignore Str? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
+    skipStr = input("Ignore Strength? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
 
     #Open CSV from DIM
     rawArmorList = []
@@ -121,8 +120,10 @@ def run():
         simpleSuperiorityList.append([currentArmor, badArmorList])
 
     #Display
-    for element in simpleSuperiorityList:
-        print(element[0] + " is better than: " + str(element[1]) + "\n")
+    #for element in simpleSuperiorityList:
+        #print(element[0] + " is better than: " + str(element[1]) + "\n")
+    for i in worstArmor:
+        print(i)
     
     logger.info("Vault Spaces Saveable: " + str(len(worstArmor)))
 
