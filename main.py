@@ -25,20 +25,18 @@ class armorPiece:
 
             #Armor 1.0 exotics have no masterwork so this is required.
             try:
-                self.master = info[10].split()[0]
-                self.masterTier = int(info[11])
+                self.masterTier = int(info[10])
 
             except Exception as e:
-                self.master = 'None'
                 self.masterTier = 0
 
-            self.mob = int(info[27])
-            self.res = int(info[28])
-            self.rec = int(info[29])
-            self.dis = int(info[30])
-            self.int = int(info[31])
-            self.str = int(info[32])
-            self.total = int(info[33])
+            self.mob = int(info[24])
+            self.res = int(info[25])
+            self.rec = int(info[26])
+            self.dis = int(info[27])
+            self.int = int(info[28])
+            self.str = int(info[29])
+            self.total = int(info[30])
 
         except Exception as e:
             print(e)
@@ -68,7 +66,7 @@ class armorPiece:
     #Simpler way to print armor piece
     def shortStr(self):
         return str(self.name) + "," + str(self.equippable) + "," + str(self.type) + "," + str(self.power) + "," + str(
-            self.total) + "," + self.master + "," + str(self.masterTier)
+            self.total) + "," + str(self.masterTier)
 
 def run():
     #Prompting and config
@@ -80,7 +78,7 @@ def run():
     skipRes = input("Ignore Resilience? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipDis = input("Ignore Discipline? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
     skipInt = input("Ignore Intellect? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
-    skipStr = input("Ignore Str? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
+    skipStr = input("Ignore Strength? Y/N (Default: No)\n") in ['Y', 'y', 'yes', 'Yes', 'YES']
 
     #Open CSV from DIM
     rawArmorList = []

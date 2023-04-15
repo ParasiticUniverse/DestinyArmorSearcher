@@ -141,4 +141,4 @@ dmypy.json
 cython_debug/
 
 # Mac file system trash
-**./DS_Store
+**/.DS_Store
